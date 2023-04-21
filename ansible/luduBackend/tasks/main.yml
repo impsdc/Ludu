@@ -1,0 +1,19 @@
+---
+# tasks file for luduBackend
+- name: check if the folder Backend ludu is created
+  ansible.builtin.file:
+    path: /opt/luduBackend
+    owner: ubuntu
+    group: ubuntu
+    mode: "0755"
+    state: directory
+
+- name: Extract luduBackend
+  ansible.builtin.unarchive:
+    src: luduBackend/files/server.tgz
+    dest: /opt/luduBackend
+
+- name: docker-compose up
+  command: docker-compose up -d --build
+  args:
+    chdir: /opt/luduBackend/server

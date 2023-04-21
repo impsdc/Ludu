@@ -1,0 +1,143 @@
+---
+# tasks file for luduServerSetup
+    - name: Make sure we have a 'ludu' group
+      group:
+        name: ludu
+        state: present
+
+    - name: Allow 'ludu' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%ludu'
+        line: '%ludu ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Add ludu user to ludu group
+      user:
+        name=ludu
+        groups=ludu
+        append=yes
+        state=present
+        createhome=yes
+
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+   
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: 
+           - docker
+           - docker-compose
+
+    - name: Install docker-compose
+      apt:
+       name: docker-compose-plugin
+       state: present
+
+    - name: Make sure we have a 'docker' group
+      group:
+        name: docker
+        state: present
+
+    - name: Allow 'docker' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%docker'
+        line: '%docker ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+            
+    - name: Add ubuntu user to docker group
+      user:
+        name=ubuntu
+        groups=docker
+        append=yes
+        state=present
+        createhome=yes
+
+    - name: Add ludu user to docker group
+      user:
+        name=ludu
+        groups=docker
+        append=yes
+        state=present
+        createhome=yes
+
+    - name: Get running containers
+      docker_host_info:
+        containers: yes
+      register: docker_info
+
+    - name: Stop running containers
+      docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+
+    - name: Get details of all images
+      docker_host_info:
+        images: yes
+        verbose_output: yes
+      register: image_info
+
+    - name: Prune everything (including non-dangling images)
+      community.docker.docker_prune:
+        containers: yes
+        images: yes
+        images_filters:
+          dangling: false
+        networks: yes
+        volumes: yes
+        builder_cache: yes
+
+    - name: Remove all images
+      docker_image:
+        name: "{{ item }}"
+        state: absent
+      loop: "{{ image_info.images | map(attribute='Id') | list }}"
+        
+    - name: Remove backup files
+      find:
+        paths: /
+        patterns: "*.bak"
+        recurse: yes
+      register: backup_files
+
+    - name: Delete backup files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ backup_files.files }}"
