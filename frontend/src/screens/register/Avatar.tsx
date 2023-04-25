@@ -8,6 +8,7 @@ import {
   Image,
   View,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
@@ -122,6 +123,7 @@ export default function Avatar({ navigation }: any) {
   };
   return (
     <View>
+      <StatusBar animated={true} backgroundColor={primaryColor} barStyle={'dark-content'} />
       <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
         <View
           style={{

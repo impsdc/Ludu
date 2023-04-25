@@ -12,7 +12,7 @@ const MapViewScreen = () => {
   const zipCode = useSelector((state: MainAppState) => state.currentLocation.zipCode);
   const { data, isSuccess, isError, error } = useGetEntitiesByZipCodeQuery({
     postalCode: zipCode,
-    entity: 'stores',
+    entity: 'map',
     filteredCategories: [],
   });
   const [stores, setStores] = useState([]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import NotFound from '../components/NotFound';
 import { primaryColor } from '../utils/const';
@@ -7,6 +7,7 @@ import { primaryColor } from '../utils/const';
 const LoadingScreen = () => {
   return (
     <View style={styles.center}>
+      <StatusBar animated={true} backgroundColor={'#fff'} barStyle={'dark-content'} />
       <NotFound info={'We are currently retrieving your location'} />
       <ActivityIndicator animating={true} color={primaryColor} />
     </View>

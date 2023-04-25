@@ -59,6 +59,7 @@ export default function Register({ navigation }: any) {
   return (
     <View>
       <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
+        <StatusBar animated={true} backgroundColor={primaryColor} barStyle={'dark-content'} />
         <Image style={styles.logo} source={require('../../../assets/ludu_logo.png')} />
         <>
           <TextInput

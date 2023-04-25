@@ -1,0 +1,25 @@
+{
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "extends": "production"
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "extends": "production"
+    },
+    "preview3": {
+      "developmentClient": true,
+      "extends": "production"
+    },
+    "production": {
+      "env": {
+        "GOOGLE_CLOUD_API_KEY": "###"
+      }
+    }
+  }
+}

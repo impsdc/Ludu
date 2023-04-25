@@ -53,6 +53,7 @@ export default function Login({ navigation }: any) {
 
   return (
     <View>
+      <StatusBar animated={true} backgroundColor={primaryColor} barStyle={'dark-content'} />
       <LinearGradient colors={[primaryColor, secondaryColor]} style={styles.container}>
         <Image style={styles.logo} source={require('../../assets/ludu_logo.png')} />
         {!isLoading && (

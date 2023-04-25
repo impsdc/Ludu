@@ -55,6 +55,7 @@ export default function Phone({ navigation }: any) {
 
   return (
     <View>
+      <StatusBar animated={true} backgroundColor={primaryColor} barStyle={'dark-content'} />
       <LinearGradient colors={[primaryColor, secondaryColor]} style={{ height: '100%' }}>
         <View
           style={{

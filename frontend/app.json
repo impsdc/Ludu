@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "LUDU",
+    "slug": "LUDU",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/ludu_logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/ludu_logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/ludu_logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
+      ],
+      "package": "com.paulsantamaria.LUDU",
+      "config": {
+        "googleMaps": {
+          "apiKey": "####"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/ludu_logo.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow LUDU to use your location."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a1e423b7-84eb-48df-8135-32823bb5a759"
+      }
+    }
+  }
+}

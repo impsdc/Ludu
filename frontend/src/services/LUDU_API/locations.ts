@@ -39,7 +39,7 @@ const extendedApi = emptySplitApi.injectEndpoints({
       },
       transformResponse: (response: Array<LocationAPI>, meta, arg) => {
         const { entity, gameId } = arg;
-        const res = [];
+        let res = [];
         if (entity == 'copies') {
           for (const location of response) {
             for (const store of location['stores']) {
@@ -49,15 +49,25 @@ const extendedApi = emptySplitApi.injectEndpoints({
               }
             }
           }
-        } else {
+        }
+        if (entity == 'stores') {
           for (const location of response) {
             for (const store of location['stores']) {
+              console.log(store);
               res.push(store);
             }
           }
-          // res = res.filter((st) =>
-          //   st.copies.find((copy) => copy.convertedGameId === gameId && copy.available),
-          // );
+          res = res.filter((st) =>
+            st.copies.find((copy) => copy.convertedGameId === gameId && copy.available),
+          );
+        }
+        if (entity == 'map') {
+          for (const location of response) {
+            for (const store of location['stores']) {
+              console.log(store);
+              res.push(store);
+            }
+          }
         }
         return res;
       },
